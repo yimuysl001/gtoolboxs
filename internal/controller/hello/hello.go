@@ -5,7 +5,7 @@ import (
 
 	"github.com/gogf/gf/v2/frame/g"
 
-	v1 "gtoolboxs/api/hello/v1"
+	v1 "github.com/yimuysl001/gtoolboxs/api/hello/v1"
 )
 
 type Controller struct{}

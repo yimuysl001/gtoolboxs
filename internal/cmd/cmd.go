@@ -7,7 +7,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 
-	"gtoolboxs/internal/controller/hello"
+	"github.com/yimuysl001/gtoolboxs/internal/controller/hello"
 )
 
 var (

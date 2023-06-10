@@ -1,0 +1,341 @@
+2023-06-10 21:48:54.521 [ERRO] {382a9e5d5a506717a1b8b83107027c18} [  0 ms] [default] [] [rows:0  ] PRAGMA TABLE_INFO(`test`)
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/contrib/drivers/sqlite/v2.(*Driver).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/contrib/drivers/sqlite/v2@v2.4.2/sqlite.go:155
+6.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields.func1
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:80
+7.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).doSetWithLockCheck
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:217
+8.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).GetOrSetFuncLock
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:254
+9.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:78
+10. github.com/gogf/gf/v2/database/gdb.(*Model).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_utility.go:38
+11. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldName
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:98
+12. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldNameDeleted
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:92
+13. github.com/gogf/gf/v2/database/gdb.(*Model).getConditionForSoftDeleting
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:144
+14. github.com/gogf/gf/v2/database/gdb.(*Model).formatCondition
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:733
+15. github.com/gogf/gf/v2/database/gdb.(*Model).getFormattedSqlAndArgs
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:627
+16. github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:573
+17. github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+18. main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:48:54.522 [ERRO] {08feae5d5a506717a2b8b831ddb022bc} [  0 ms] [default] [] [rows:0  ] SELECT * FROM `test`
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/v2/database/gdb.(*HookSelectInput).Next
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_hook.go:113
+6.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAllBySql
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:595
+7.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:574
+8.  github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+9.  main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:49:36.397 [ERRO] {5c5b981d645067174f226e3f8f01f5d8} [  0 ms] [default] [] [rows:0  ] PRAGMA TABLE_INFO(`test`)
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/contrib/drivers/sqlite/v2.(*Driver).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/contrib/drivers/sqlite/v2@v2.4.2/sqlite.go:155
+6.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields.func1
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:80
+7.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).doSetWithLockCheck
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:217
+8.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).GetOrSetFuncLock
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:254
+9.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:78
+10. github.com/gogf/gf/v2/database/gdb.(*Model).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_utility.go:38
+11. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldName
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:98
+12. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldNameDeleted
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:92
+13. github.com/gogf/gf/v2/database/gdb.(*Model).getConditionForSoftDeleting
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:144
+14. github.com/gogf/gf/v2/database/gdb.(*Model).formatCondition
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:733
+15. github.com/gogf/gf/v2/database/gdb.(*Model).getFormattedSqlAndArgs
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:627
+16. github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:573
+17. github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+18. main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:49:36.398 [ERRO] {c02da81d6450671750226e3fadc99163} [  0 ms] [default] [] [rows:0  ] SELECT * FROM `test`
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/v2/database/gdb.(*HookSelectInput).Next
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_hook.go:113
+6.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAllBySql
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:595
+7.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:574
+8.  github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+9.  main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:50:35.887 [ERRO] {981074f771506717ba084a2e05bd941b} [  0 ms] [default] [] [rows:0  ] PRAGMA TABLE_INFO(`test`)
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/contrib/drivers/sqlite/v2.(*Driver).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/contrib/drivers/sqlite/v2@v2.4.2/sqlite.go:155
+6.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields.func1
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:80
+7.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).doSetWithLockCheck
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:217
+8.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).GetOrSetFuncLock
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:254
+9.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:78
+10. github.com/gogf/gf/v2/database/gdb.(*Model).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_utility.go:38
+11. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldName
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:98
+12. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldNameDeleted
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:92
+13. github.com/gogf/gf/v2/database/gdb.(*Model).getConditionForSoftDeleting
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:144
+14. github.com/gogf/gf/v2/database/gdb.(*Model).formatCondition
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:733
+15. github.com/gogf/gf/v2/database/gdb.(*Model).getFormattedSqlAndArgs
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:627
+16. github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:573
+17. github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+18. main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:50:35.887 [ERRO] {842285f771506717bb084a2ee9157c61} [  0 ms] [default] [] [rows:0  ] SELECT * FROM `test`
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/v2/database/gdb.(*HookSelectInput).Next
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_hook.go:113
+6.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAllBySql
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:595
+7.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:574
+8.  github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+9.  main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:50:59.265 [ERRO] {b48ce76877506717398ec016395abbb7} [  0 ms] [default] [] [rows:0  ] PRAGMA TABLE_INFO(`test`)
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/contrib/drivers/sqlite/v2.(*Driver).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/contrib/drivers/sqlite/v2@v2.4.2/sqlite.go:155
+6.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields.func1
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:80
+7.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).doSetWithLockCheck
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:217
+8.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).GetOrSetFuncLock
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:254
+9.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:78
+10. github.com/gogf/gf/v2/database/gdb.(*Model).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_utility.go:38
+11. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldName
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:98
+12. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldNameDeleted
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:92
+13. github.com/gogf/gf/v2/database/gdb.(*Model).getConditionForSoftDeleting
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:144
+14. github.com/gogf/gf/v2/database/gdb.(*Model).formatCondition
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:733
+15. github.com/gogf/gf/v2/database/gdb.(*Model).getFormattedSqlAndArgs
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:627
+16. github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:573
+17. github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+18. main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:50:59.266 [ERRO] {8891ff68775067173a8ec016866aad5e} [  0 ms] [default] [] [rows:0  ] SELECT * FROM `test`
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/v2/database/gdb.(*HookSelectInput).Next
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_hook.go:113
+6.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAllBySql
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:595
+7.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:574
+8.  github.com/gogf/gf/v2/database/gdb.(*Model).All
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:30
+9.  main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:51:22.108 [ERRO] {a07381ba7c5067177e5eb7299884916a} [  0 ms] [default] [] [rows:0  ] PRAGMA TABLE_INFO(`test`)
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/contrib/drivers/sqlite/v2.(*Driver).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/contrib/drivers/sqlite/v2@v2.4.2/sqlite.go:155
+6.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields.func1
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:80
+7.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).doSetWithLockCheck
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:217
+8.  github.com/gogf/gf/v2/container/gmap.(*StrAnyMap).GetOrSetFuncLock
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/container/gmap/gmap_hash_str_any_map.go:254
+9.  github.com/gogf/gf/v2/database/gdb.(*DriverWrapperDB).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_driver_wrapper_db.go:78
+10. github.com/gogf/gf/v2/database/gdb.(*Model).TableFields
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_utility.go:38
+11. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldName
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:98
+12. github.com/gogf/gf/v2/database/gdb.(*Model).getSoftFieldNameDeleted
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:92
+13. github.com/gogf/gf/v2/database/gdb.(*Model).getConditionForSoftDeleting
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_time.go:144
+14. github.com/gogf/gf/v2/database/gdb.(*Model).formatCondition
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:733
+15. github.com/gogf/gf/v2/database/gdb.(*Model).getFormattedSqlAndArgs
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:627
+16. github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:573
+17. github.com/gogf/gf/v2/database/gdb.(*Model).One
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:112
+18. main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:51:22.109 [ERRO] {403c91ba7c5067177f5eb7299e63f629} [  0 ms] [default] [] [rows:0  ] SELECT * FROM `test` LIMIT 1
+Error: unable to open database file: out of memory (14)
+Stack:
+1.  github.com/gogf/gf/v2/database/gdb.(*Core).writeSqlToLogger
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:750
+2.  github.com/gogf/gf/v2/database/gdb.(*Core).DoCommit
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:280
+3.  github.com/gogf/gf/v2/database/gdb.(*Core).DoQuery
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core_underlying.go:76
+4.  github.com/gogf/gf/v2/database/gdb.(*Core).DoSelect
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_core.go:154
+5.  github.com/gogf/gf/v2/database/gdb.(*HookSelectInput).Next
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_hook.go:113
+6.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAllBySql
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:595
+7.  github.com/gogf/gf/v2/database/gdb.(*Model).doGetAll
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:574
+8.  github.com/gogf/gf/v2/database/gdb.(*Model).One
+    D:/env/go/gopath/pkg/mod/github.com/gogf/gf/v2@v2.4.2/database/gdb/gdb_model_select.go:112
+9.  main.main
+    D:/wk/mygithub/gtoolboxs/main.go:12
+
+2023-06-10 21:51:41.749 [DEBU] {805f234d81506717991f082f24c6b011} [  1 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 21:51:41.749 [DEBU] {98da2b4d815067179a1f082f42cfa0a6} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test` LIMIT 1
+2023-06-10 21:53:07.925 [DEBU] {e49da75d955067176fae1113cab5811a} [  0 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 21:53:07.925 [DEBU] {5863af5d9550671770ae11131595fc72} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:12:33.960 [DEBU] {f47fb9daa4516717f59d697a0b6b63f8} [  1 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:12:33.960 [DEBU] {34bac1daa4516717f69d697a66bbd38b} [  0 ms] [default] [] [rows:2  ] SELECT * FROM `test`
+2023-06-10 22:12:33.960 [DEBU] {7490c9daa4516717f79d697a2e8fc681} [  0 ms] [default] [] [rows:2  ] SELECT * FROM `test`
+2023-06-10 22:12:57.267 [DEBU] {b444ef47aa5167171cac781f49ba2e97} [  1 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:12:57.267 [DEBU] {a41ff747aa5167171dac781ffda823f4} [  0 ms] [default] [] [rows:2  ] SELECT * FROM `test`
+2023-06-10 22:12:57.267 [DEBU] {b416ff47aa5167171eac781f82819a4a} [  0 ms] [default] [] [rows:2  ] SELECT * FROM `test`
+2023-06-10 22:15:55.567 [DEBU] {b06e80cbd351671775b2e35e72f2a071} [  0 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:15:55.568 [DEBU] {dc3f88cbd351671776b2e35e03568c95} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:15:55.568 [DEBU] {dc3f88cbd351671777b2e35e79cf646e} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:09.817 [DEBU] {389edd1cd7516717a1ed8c2551264ad6} [  0 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:16:09.818 [DEBU] {9480e51cd7516717a2ed8c25ae0e2bf9} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:09.818 [DEBU] {9480e51cd7516717a3ed8c254ecf2c32} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:15.001 [DEBU] {70a8d351d851671786c55f4f3859fe0f} [  0 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:16:15.001 [DEBU] {70a8d351d851671787c55f4f0f4eb96d} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:15.001 [DEBU] {e49fdb51d851671788c55f4f438f21b9} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:39.693 [DEBU] {ace68e11de51671783e4f368af23460b} [  1 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:16:39.693 [DEBU] {8ccc9611de51671784e4f3681abc5b0c} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:39.693 [DEBU] {44a89e11de51671785e4f368a64d7144} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:39.695 [DEBU] {44a89e11de51671786e4f368d3773a66} [  2 ms] [default] [] [rows:1  ] INSERT INTO `test`(`id`,`name`) VALUES(4,'de2') 
+2023-06-10 22:16:48.820 [DEBU] {3c118f31e0516717176e1b71e50aa668} [  1 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:16:48.821 [DEBU] {7c9e9e31e0516717186e1b71b064b5e4} [  1 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:48.821 [DEBU] {3461a631e0516717196e1b711183422c} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:53.969 [DEBU] {f07d8064e15167179ed90c1ba83cbc21} [  0 ms] [default] [] [rows:2  ] PRAGMA TABLE_INFO(`test`)
+2023-06-10 22:16:53.969 [DEBU] {0c418864e15167179fd90c1bb7b9ec22} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:16:53.969 [DEBU] {0c418864e1516717a0d90c1b996b94cb} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `test`
+2023-06-10 22:58:14.874 [DEBU] {94ff010623546717091df75bdf080916} [  0 ms] [default] [] [rows:11 ] PRAGMA TABLE_INFO(`TBDBCONFIG`)
+2023-06-10 22:58:14.875 [DEBU] {fcf80906235467170a1df75beed98a9e} [  0 ms] [default] [] [rows:1  ] SELECT * FROM `TBDBCONFIG` WHERE status=1 and CYWBM='TEST'

@@ -123,6 +123,6 @@ func setCtime(str string) (errn error) {
 		return errors.New("设置有效期:" + dtime.String() + "，在当前时间之前。")
 	}
 
-	return os.WriteFile("./.permission", []byte(str), 0666)
+	return os.WriteFile(permissionpath, []byte(str), 0666)
 
 }

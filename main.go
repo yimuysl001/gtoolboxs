@@ -9,11 +9,11 @@ import (
 func main() {
 	//cmd.Main.Run(gctx.GetInitCtx())
 
-	all, err := dbutil.DB("TEST").Model("test").All()
+	all, err := dbutil.DB("log").Model("TBZDBQ").All()
 	logger.Logger.Info(err)
 	logger.Logger.Info(all)
 
-	all, err = dbutil.DB("TEST").Model("test").All()
+	all, err = dbutil.DB("log").Model("TBZDBQ").All()
 	logger.Logger.Info(err)
 	logger.Logger.Info(all)
 

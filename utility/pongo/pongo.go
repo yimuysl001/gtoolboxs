@@ -13,7 +13,7 @@ import (
 func IndexData(ctx context.Context, template string) string {
 
 	logger.Logger.TraceCtx(ctx, "IndexData原始出参：", template)
-
+	template = strings.TrimSpace(template)
 	if template == "" {
 		return template
 	}

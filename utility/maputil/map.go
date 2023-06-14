@@ -1,6 +1,11 @@
 package maputil
 
-import "sync"
+import (
+	"bytes"
+	"encoding/json"
+	"strings"
+	"sync"
+)
 
 var mu sync.RWMutex
 
@@ -74,4 +79,21 @@ func GetOrSetFunc[T any](maps map[string]T, key string, f func() T) T {
 	} else {
 		return v
 	}
+}
+
+func GetEqualFold[T any](maps map[string]T, key string) (any, bool) {
+	for s, t := range maps {
+		if strings.EqualFold(s, key) {
+			return t, true
+		}
+	}
+	return nil, false
+}
+
+func StructTojson(any interface{}) string {
+	bf := bytes.NewBuffer([]byte{})
+	jsonEncoder := json.NewEncoder(bf)
+	jsonEncoder.SetEscapeHTML(false)
+	jsonEncoder.Encode(any)
+	return bf.String()
 }

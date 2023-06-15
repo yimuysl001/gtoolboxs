@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	//_ "github.com/yimuysl001/gtoolboxs/internal/packed"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
-	"github.com/yimuysl001/gtoolboxs/utility/sys/automatic"
 )
 
 func main() {
@@ -16,9 +14,9 @@ func main() {
 	//
 	//all, err = dbutil.DB("log").Model("TBZDBQ").All()
 
-	automatic.Auto(func() {
-		fmt.Println("=======设置完成======")
-	})
+	//automatic.Auto(func() {
+	//	fmt.Println("=======设置完成======")
+	//})
 
 	logger.Logger.Info("===================")
 	logger.Logger.Info("========自动开机设置测试===========")

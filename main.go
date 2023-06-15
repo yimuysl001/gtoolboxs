@@ -2,20 +2,26 @@ package main
 
 import (
 	"fmt"
-	_ "github.com/yimuysl001/gtoolboxs/internal/packed"
-	"github.com/yimuysl001/gtoolboxs/utility/sys/autolnk"
+	//_ "github.com/yimuysl001/gtoolboxs/internal/packed"
+	"github.com/yimuysl001/gtoolboxs/utility/logger"
+	"github.com/yimuysl001/gtoolboxs/utility/sys/automatic"
 )
 
 func main() {
 	//cmd.Main.Run(gctx.GetInitCtx())
-
+	//
 	//all, err := dbutil.DB("log").Model("TBZDBQ").All()
 	//logger.Logger.Info(err)
 	//logger.Logger.Info(all)
 	//
 	//all, err = dbutil.DB("log").Model("TBZDBQ").All()
-	//logger.Logger.Info(err)
-	//logger.Logger.Info(all)
+
+	automatic.Auto(func() {
+		fmt.Println("=======设置完成======")
+	})
+
+	logger.Logger.Info("===================")
+	logger.Logger.Info("========自动开机设置测试===========")
 
 	//m := gmap.New()
 	//
@@ -23,7 +29,6 @@ func main() {
 	//m.Set("name", "de2")
 	//
 	//dbutil.DB().Model("test").Insert(m)
-	fmt.Println(autolnk.CreateDesktop())
-	fmt.Println(autolnk.CreateStartup())
 
+	select {}
 }

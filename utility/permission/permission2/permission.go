@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+//补充
+
 const permissionpath = "./config/.permission"
 
 var (

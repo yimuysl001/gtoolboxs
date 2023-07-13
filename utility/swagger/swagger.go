@@ -11,11 +11,20 @@ import (
 	"github.com/yimuysl001/gtoolboxs/utility/swagger/knife/webjars/js"
 )
 
+// InitSwaggerByStatic
+//
+//	@Description:
+//	@param router
 func InitSwaggerByStatic(router *ghttp.RouterGroup) {
 	knife.AddApiDocRouter(router)
 	knife.AddSwaggerResourcesRouter(router)
+
 }
 
+// InitSwaggerKnife
+//
+//	@Description:
+//	@param router
 func InitSwaggerKnife(router *ghttp.RouterGroup) {
 
 	knife.AddApiDocRouter(router)

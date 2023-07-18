@@ -12,6 +12,7 @@ require (
 	github.com/gogf/gf/contrib/drivers/pgsql/v2 v2.4.2
 	github.com/gogf/gf/contrib/drivers/sqlite/v2 v2.4.2
 	github.com/gogf/gf/v2 v2.4.2
+	github.com/jxeng/shortcut v1.0.2
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/streadway/amqp v1.0.0
 	go.opentelemetry.io/otel/trace v1.7.0
@@ -48,6 +49,7 @@ require (
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/sijms/go-ora/v2 v2.4.20 // indirect
+	github.com/sipin/gorazor v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	go.opentelemetry.io/otel v1.7.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.7.0 // indirect

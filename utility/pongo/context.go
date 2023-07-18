@@ -23,15 +23,16 @@ func init() {
 		"sqlTableMust":  sqlTableMust, //单条结果集返回(不可为空) 参数： [sql语句] [sql参数]... 返回map
 		"sqlsTable":     sqlsTable,    //多条结果集 参数： [sql语句] [sql参数]... 返回map切片
 		"sqlsTableMust": sqlsTableMust,
-		"cache":         SqlCache, //字典数据缓存查询 参数：[表名] [条件] 条件参数  返回map
-		"cat":           cat,      //字符拼接
-		"datef":         date,     //时间格斯转换
+		"cache":         SqlCache,  //字典数据缓存查询 参数：[表名] [条件] 条件参数  返回map
+		"caches":        SqlsCache, //字典数据缓存查询 参数：[表名] [条件] 条件参数  返回map
+		"cat":           cat,       //字符拼接
+		"datef":         date,      //时间格斯转换
 		"todate": func(fmt, str string) time.Time {
 			t, _ := time.ParseInLocation(fmt, str, time.Local)
 			return t
 		},
-
-		"map":      rangMap,
+		"addDate":  addDate,
+		"map":      rangMapg,
 		"sprintf":  fmt.Sprintf,
 		"sendHttp": doHttp,
 		"sendMq":   doMq,
@@ -58,6 +59,8 @@ func init() {
 			}
 			return strings.Join(strs, s)
 		},
+		"now":    nowtime,
+		"getCfg": cfg,
 	})
 }
 

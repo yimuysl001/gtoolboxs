@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/encoding/gjson"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/yimuysl001/gtoolboxs/utility/dbutil"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
@@ -24,8 +25,8 @@ func DelData(table string, where string, args ...interface{}) (flag bool) {
 			flag = false
 		}
 	}()
-
-	_, err := dbutil.DB().Delete(context.Background(), table, where, args...)
+	name, s, s2 := gettableName(table)
+	_, err := dbutil.DB(name).Schema(s).Delete(context.Background(), s2, where, args...)
 
 	logger.Logger.PanicErrorCtx(context.Background(), err)
 
@@ -55,13 +56,13 @@ func InsertData(table string, key string, data map[string]interface{}) (flag boo
 			flag = false
 		}
 	}()
-
-	err := dbutil.Tran(context.Background(), dbutil.DB(), func(ctx2 context.Context, tx gdb.TX) {
+	name, s, s2 := gettableName(table)
+	err := dbutil.Tran(context.Background(), dbutil.DB(name).Schema(s), func(ctx2 context.Context, tx gdb.TX) {
 		if key != "" {
-			_, err := tx.Delete(table, key+"=?", data[key])
+			_, err := tx.Delete(s2, key+"=?", data[key])
 			logger.Logger.PanicErrorCtx(ctx2, err)
 		}
-		_, err := tx.Insert(table, data)
+		_, err := tx.Insert(s2, data)
 		logger.Logger.PanicErrorCtx(ctx2, err)
 
 	})
@@ -86,14 +87,16 @@ func SqlMap(sql string, args ...interface{}) map[string]interface{} {
 }
 
 func sqlTable(tbname, where string, args ...interface{}) map[string]interface{} {
-	one, err := dbutil.DB().Model(tbname).One(where, args)
+	name, s, s2 := gettableName(tbname)
+	one, err := dbutil.DB(name).Schema(s).Model(s2).One(where, args)
 	if err != nil {
 		panic(err)
 	}
 	return one.Map()
 }
 func sqlTableMust(tbname, where string, args ...interface{}) map[string]interface{} {
-	one, err := dbutil.DB().Model(tbname).One(where, args)
+	name, s, s2 := gettableName(tbname)
+	one, err := dbutil.DB(name).Schema(s).Model(s2).One(where, args)
 	if err != nil {
 		panic(err)
 	}
@@ -104,14 +107,16 @@ func sqlTableMust(tbname, where string, args ...interface{}) map[string]interfac
 }
 
 func sqlsTable(tbname, where string, args ...interface{}) []map[string]interface{} {
-	one, err := dbutil.DB().Model(tbname).All(where, args)
+	name, s, s2 := gettableName(tbname)
+	one, err := dbutil.DB(name).Schema(s).Model(s2).All(where, args)
 	if err != nil {
 		panic(err)
 	}
 	return one.List()
 }
 func sqlsTableMust(tbname, where string, args ...interface{}) []map[string]interface{} {
-	one, err := dbutil.DB().Model(tbname).All(where, args)
+	name, s, s2 := gettableName(tbname)
+	one, err := dbutil.DB(name).Schema(s).Model(s2).All(where, args)
 	if err != nil {
 		panic(err)
 	}
@@ -169,11 +174,67 @@ func SqlsMust(sql string, args ...interface{}) []map[string]interface{} {
 // where 查询条件
 // args 传参
 func SqlCache(tbname string, where string, args ...interface{}) map[string]interface{} {
-	one, err := dbutil.DB().Model(tbname).Cache(gdb.CacheOption{Duration: time.Hour}).One(where, args)
+	name, s, s2 := gettableName(tbname)
+	one, err := dbutil.DB(name).Schema(s).Model(s2).Cache(gdb.CacheOption{Duration: time.Hour}).One(where, args)
 	if err != nil {
 		panic(err)
 	}
 	return one.Map()
+}
+
+// SqlsCache 缓存数据
+// tbname 表名称
+// where 查询条件
+// args 传参
+func SqlsCache(tbname string, where string, args ...interface{}) []map[string]interface{} {
+	name, s, s2 := gettableName(tbname)
+	one, err := dbutil.DB(name).Schema(s).Model(s2).Cache(gdb.CacheOption{Duration: time.Hour}).All(where, args)
+	if err != nil {
+		panic(err)
+	}
+	return one.List()
+}
+
+// gettableName
+//
+//	@Description:
+//	@param tbname
+//	@return string 配置名称
+//	@return string  库名
+//	@return string 表名
+func gettableName(tbname string) (string, string, string) {
+	if strings.Contains(tbname, "..") {
+		ns := strings.Split(tbname, "..")
+		if len(ns) > 2 {
+			return ns[0], ns[1], ns[2]
+		}
+		n1 := strings.ToUpper(ns[1])
+
+		ns2 := strings.SplitN(n1, ".DBO.", 2)
+		if len(ns) < 2 {
+			return "", ns[0], ns[1]
+		}
+		return ns[0], ns2[0], ns2[1]
+
+	}
+	tbname = strings.ToUpper(tbname)
+	ns2 := strings.SplitN(tbname, ".DBO.", 2)
+	if len(ns2) < 2 {
+		return "", "", tbname
+	}
+
+	return "", ns2[0], ns2[1]
+}
+func getsqldb(sqls string) (string, string) {
+
+	sqls = strings.ToUpper(sqls)
+
+	if !strings.Contains(sqls, "[DB=") {
+		return "", sqls
+	}
+
+	return "", sqls
+
 }
 
 // ProSql 存储过程执行
@@ -354,4 +415,117 @@ func strslice(v interface{}) []string {
 			return []string{gconv.String(v)}
 		}
 	}
+}
+
+func countInt(index int) []int {
+	if index <= 0 {
+		return nil
+	}
+	var sequence = make([]int, index+1)
+	for i := 0; i < index; i++ {
+		sequence[i] = i
+	}
+	return sequence
+
+}
+
+func customGenerateSequence(seqStart, seqEnd int) []int {
+	var sequence []int
+	for i := seqStart; i <= seqEnd; i++ {
+		sequence = append(sequence, i)
+	}
+	return sequence
+}
+
+func cfg(path string, name ...string) interface{} {
+	return g.Cfg(name...).MustGet(context.Background(), path, nil).Val()
+}
+func addDate(d time.Time, i int, ds string) time.Time {
+
+	switch strings.ToUpper(ds) {
+	case "Y":
+		d = d.AddDate(i, 0, 0)
+	case "M":
+		d = d.AddDate(0, i, 0)
+	case "D":
+		d = d.AddDate(0, 0, i)
+	default:
+		d = d.Add(time.Second * time.Duration(i))
+	}
+
+	return d
+}
+
+func rangMapg(k, v string, maps interface{}) map[string]interface{} {
+	var m = make(map[string]interface{})
+
+	if maps == nil {
+		return m
+	}
+	switch va := maps.(type) {
+	case []map[string]interface{}:
+		return rangMap(k, v, va)
+	case []interface{}:
+		for _, vs := range va {
+			if vs == nil {
+				continue
+			}
+			if m2, y := vs.(map[string]interface{}); y {
+				key, ok := m2[k]
+				if !ok {
+					panic("未找到key字段：" + k)
+				}
+				if key == nil || key == "" {
+					continue
+				}
+				value, ok := m2[v]
+				if !ok {
+					panic("未找到value字段：" + v)
+				}
+				m["K"+gconv.String(key)] = value
+			}
+		}
+
+	default:
+		logger.Logger.PanicCtx(context.Background(), "未识别的数据类型")
+
+	}
+
+	//for _, m2 := range maps {
+	//	key, ok := m2[k]
+	//	if !ok {
+	//		panic("未找到key字段：" + k)
+	//	}
+	//	if key == nil || key == "" {
+	//		continue
+	//	}
+	//	value, ok := m2[v]
+	//	if !ok {
+	//		panic("未找到value字段：" + v)
+	//	}
+	//	m["K"+gconv.String(key)] = value
+	//}
+
+	return m
+
+}
+
+func nowtime() (t time.Time) {
+	defer func() {
+		if err := recover(); err != nil || t.IsZero() {
+			t = time.Now()
+		}
+	}()
+
+	one, err := g.DB().GetOne(context.Background(), "select getdate() as time")
+	if err != nil {
+		return time.Now()
+	}
+
+	if one.IsEmpty() {
+		return time.Now()
+	}
+
+	return gconv.Time(one["time"])
+
 }

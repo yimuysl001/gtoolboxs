@@ -5,7 +5,9 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/yimuysl001/gtoolboxs/utility/cache"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
+	"sync"
 )
 
 const (
@@ -13,12 +15,21 @@ const (
 	gfcache  = "gf.core.component.database"
 )
 
+var once sync.Once
+
 // DB db获取
-func DB(name ...string) gdb.DB {
+func DB(name ...string) (d gdb.DB) {
 	//如果 name 为空，直接获取本地配置
 	if name == nil || len(name) < 1 || name[0] == "" {
 		return g.DB()
 	}
+	defer func() {
+		if d != nil && cache.GetAdapter() != nil {
+			once.Do(func() {
+				d.GetCache().SetAdapter(cache.GetAdapter())
+			})
+		}
+	}()
 
 	n := name[0]
 
@@ -70,6 +81,11 @@ func SetDb(name string) {
 	//newcf.Extra = "app name=" + name + "测试"
 	//GetLink(&newcf)
 	gdb.SetConfigGroup(name, GetConfigGroup(gctx.New(), name))
+	if cache.GetAdapter() != nil {
+		instance, err := gdb.Instance(name)
+		logger.Logger.PanicErrorCtx(context.Background(), err)
+		instance.GetCache().SetAdapter(cache.GetAdapter())
+	}
 
 }
 
@@ -88,7 +104,11 @@ func setLocalDb(name string) (ok bool) {
 	//config := g.DB(name).GetConfig()
 	//logger.Logger.Info(config)
 	gdb.SetConfigGroup(name, config)
-
+	if cache.GetAdapter() != nil {
+		instance, err := gdb.Instance(name)
+		logger.Logger.PanicErrorCtx(context.Background(), err)
+		instance.GetCache().SetAdapter(cache.GetAdapter())
+	}
 	return true
 }
 

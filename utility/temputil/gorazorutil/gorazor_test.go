@@ -1,14 +1,17 @@
 package gorazorutil
 
 import (
+	"context"
 	"fmt"
+	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
+	"github.com/gogf/gf/v2/frame/g"
 	"regexp"
 	"strings"
 	"testing"
 )
 
 func TestRazo(t *testing.T) {
-	str := "select [ DB=123] * FROM [TABLE]"
+	str := "select [ DB=123=] * FROM [TABLE]"
 
 	// Define a regular expression pattern to match content within square brackets with an equal sign and optional spaces.
 	regex := regexp.MustCompile(`\[\s*(\w+)\s*=\s*([^]]+)\s*]`)
@@ -27,4 +30,11 @@ func TestRazo(t *testing.T) {
 	}
 	allString := regex.ReplaceAllString(str, "")
 	fmt.Println(allString)
+}
+
+func TestB(t *testing.T) {
+	err2 := g.Redis().SetEX(context.Background(), "test123", map[string]interface{}{"qw": 123}, 30)
+	fmt.Println(err2)
+	ex, err := g.Redis().Get(context.Background(), "test123")
+	fmt.Println(ex, err)
 }

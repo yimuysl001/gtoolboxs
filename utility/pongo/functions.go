@@ -11,8 +11,8 @@ import (
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
 	"github.com/yimuysl001/gtoolboxs/utility/mqutil"
 	"github.com/yimuysl001/gtoolboxs/utility/myhttp"
-
 	"reflect"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -225,15 +225,22 @@ func gettableName(tbname string) (string, string, string) {
 
 	return "", ns2[0], ns2[1]
 }
+
 func getsqldb(sqls string) (string, string) {
-
-	sqls = strings.ToUpper(sqls)
-
-	if !strings.Contains(sqls, "[DB=") {
-		return "", sqls
+	regex := regexp.MustCompile(`\[\s*(\w+)\s*=\s*([^]]+)\s*]`)
+	matches := regex.FindAllStringSubmatch(sqls, -1)
+	var db = ""
+	for _, match := range matches {
+		// match[1] contains the key inside the square brackets (e.g., "DB")
+		// match[2] contains the value inside the square brackets (e.g., "123")
+		key := strings.TrimSpace(match[1])
+		if strings.EqualFold(key, "DB") {
+			db = strings.TrimSpace(match[2])
+		}
 	}
 
-	return "", sqls
+	sqls = regex.ReplaceAllString(sqls, "")
+	return db, sqls
 
 }
 
@@ -526,6 +533,6 @@ func nowtime() (t time.Time) {
 		return time.Now()
 	}
 
-	return gconv.Time(one["time"])
+	return gconv.Time(one["time"], time.DateTime)
 
 }

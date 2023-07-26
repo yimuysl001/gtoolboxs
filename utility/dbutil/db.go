@@ -10,10 +10,10 @@ import (
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
 )
 
-const (
-	cachekey = "db.name.dbcache."
-	gfcache  = "gf.core.component.database"
-)
+//const (
+//	cachekey = "db.name.dbcache."
+//	gfcache  = "gf.core.component.database"
+//)
 
 // DB db获取
 func DB(name ...string) (d gdb.DB) {
@@ -72,12 +72,12 @@ func SetDb(name string) {
 	//newcf.Extra = "app name=" + name + "测试"
 	//GetLink(&newcf)
 	gdb.SetConfigGroup(name, GetConfigGroup(gctx.New(), name))
+	instance, err := gdb.Instance(name)
+	logger.Logger.PanicErrorCtx(context.Background(), err)
 	if cache.GetAdapter() != nil {
-		instance, err := gdb.Instance(name)
-		logger.Logger.PanicErrorCtx(context.Background(), err)
 		instance.GetCache().SetAdapter(cache.GetAdapter())
-		instance.SetLogger(getLogger())
 	}
+	instance.SetLogger(getLogger())
 
 }
 
@@ -96,12 +96,12 @@ func setLocalDb(name string) (ok bool) {
 	//config := g.DB(name).GetConfig()
 	//logger.Logger.Info(config)
 	gdb.SetConfigGroup(name, config)
+	instance, err := gdb.Instance(name)
+	logger.Logger.PanicErrorCtx(context.Background(), err)
 	if cache.GetAdapter() != nil {
-		instance, err := gdb.Instance(name)
-		logger.Logger.PanicErrorCtx(context.Background(), err)
 		instance.GetCache().SetAdapter(cache.GetAdapter())
-		instance.SetLogger(getLogger())
 	}
+	instance.SetLogger(getLogger())
 	return true
 }
 

@@ -1,7 +1,6 @@
 package main
 
 import (
-	//_ "github.com/yimuysl001/gtoolboxs/internal/packed"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
 )
 

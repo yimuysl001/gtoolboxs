@@ -1,0 +1,14 @@
+
+syntax = "proto3";
+
+service Sm4Util {
+  rpc Sm4Decode(Sm4DecodeRequest) returns (Sm4DecodeResponse);
+}
+
+message Sm4DecodeRequest {
+  string data = 1;
+}
+
+message Sm4DecodeResponse {
+  string result = 1;
+}

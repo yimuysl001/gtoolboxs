@@ -35,14 +35,10 @@ func GetUuid(ctx context.Context) string {
 	if ctxValue = ctx.Value(Loggerkey); ctxValue == nil {
 		ctxValue = ctx.Value(gctx.StrKey(gconv.String(Loggerkey)))
 	}
-	if ctxValue == nil {
-		return guid.S()
-	}
 	id = gconv.String(ctxValue)
 	if id != "" {
 		return id
 	}
-
 	//数据请求的id
 	// Tracing values.
 	spanCtx := trace.SpanContextFromContext(ctx)

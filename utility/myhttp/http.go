@@ -18,15 +18,15 @@ func HttpGet(ctx context.Context, url string, head map[string]string, datas ...i
 }
 
 func HttpsWeb(ctx context.Context, method string, url string, head map[string]string, datas ...interface{}) {
-	logger.Logger.Trace(ctx, "请求头：", head)
-	logger.Logger.Trace(ctx, "请求地址：", url)
-	logger.Logger.Trace(ctx, "数据提交：", datas)
+	logger.Logger.TraceCtx(ctx, "请求头：", head)
+	logger.Logger.TraceCtx(ctx, "请求地址：", url)
+	logger.Logger.TraceCtx(ctx, "数据提交：", datas)
 }
 
 func HttpWebs(ctx context.Context, method string, url string, head map[string]string, datas ...interface{}) string {
-	logger.Logger.Trace(ctx, "请求头：", head)
-	logger.Logger.Trace(ctx, "请求地址：", url)
-	logger.Logger.Trace(ctx, "数据提交：", datas)
+	logger.Logger.TraceCtx(ctx, "请求头：", head)
+	logger.Logger.TraceCtx(ctx, "请求地址：", url)
+	logger.Logger.TraceCtx(ctx, "数据提交：", datas)
 
 	var CL = gclient.New()
 	for k, v := range head {

@@ -4,11 +4,35 @@ import (
 	"context"
 	"fmt"
 	"github.com/flosch/pongo2/v6"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
 	"github.com/yimuysl001/gtoolboxs/utility/stringutil"
 	"regexp"
 	"strings"
 )
+
+func IndexDataMust(ctx context.Context, template string) string {
+	template = strings.TrimSpace(template)
+	logger.Logger.TraceCtx(ctx, "IndexData原始出参：", template)
+
+	if template == "" {
+		return template
+	}
+	t := strings.Clone(template)
+	err := g.Try(ctx, func(ctx context.Context) {
+		//xml
+		if template[0] == '<' {
+			template = stringutil.IndentXml(ctx, template)
+			//json
+		} else if template[0] == '{' || template[0] == '[' {
+			template = stringutil.IndentJson(ctx, replaceJson(ctx, template))
+		}
+	})
+	if err != nil {
+		template = t
+	}
+	return template
+}
 
 func IndexData(ctx context.Context, template string) string {
 

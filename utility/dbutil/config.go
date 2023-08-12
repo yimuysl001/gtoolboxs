@@ -13,7 +13,7 @@ type TBDBCONFIG struct {
 	STATUS int    `json:"status"` // 状态 1 使用
 	Host   string `json:"host"`   // Host of server, ip or domain like: 127.0.0.1, localhost
 	Port   string `json:"port"`   // Port, it's commonly 3306.
-	User   string `json:"user"`   // Authentication username.
+	CUser  string `json:"cuser"`  // Authentication username.
 	Pass   string `json:"pass"`   // Authentication password.
 	Name   string `json:"name"`   // Default used database name.
 	Type   string `json:"type"`   // Database type: mysql, sqlite, mssql, pgsql, oracle.
@@ -48,7 +48,7 @@ func GetConfigGroup(ctx context.Context, name string) gdb.ConfigGroup {
 		//选择库
 		newcf.Name = tbdbconfig.Name
 		//数据库登录名
-		newcf.User = tbdbconfig.User
+		newcf.User = tbdbconfig.CUser
 		//附加属性
 		//newcf.Extra = "app name=" + name + "测试"
 		newcf.Extra = tbdbconfig.Extra

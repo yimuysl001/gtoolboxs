@@ -39,6 +39,7 @@ func init() {
 		"insert":   InsertData,
 		"delete":   DelData,
 		"execsql":  Exec,
+		"exectran": ExecTran,
 		"testShow": testShow,
 		//"plugin":        plugin,
 		"mapToJson": mapToJson,

@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/yimuysl001/gtoolboxs/utility/dbutil"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
@@ -16,6 +17,12 @@ import (
 	"strings"
 	"time"
 )
+
+var dbname = ""
+
+func SetDb(name string) {
+	dbname = name
+}
 
 func DelData(table string, where string, args ...interface{}) (flag bool) {
 	flag = false
@@ -42,7 +49,26 @@ func Exec(sql string, args ...interface{}) (flag bool) {
 			flag = false
 		}
 	}()
-	_, err := dbutil.DB().Exec(context.Background(), sql, args...)
+	s, s2 := getsqldb(sql)
+	_, err := dbutil.DB(s).Exec(context.Background(), s2, args...)
+	logger.Logger.PanicErrorCtx(context.Background(), err)
+	flag = true
+	return
+}
+
+func ExecTran(sql string, args ...interface{}) (flag bool) {
+	flag = false
+	defer func() {
+		if r := recover(); r != nil {
+			logger.Logger.Error(r)
+			flag = false
+		}
+	}()
+	s, s2 := getsqldb(sql)
+	err := dbutil.Tran(gctx.New(), dbutil.DB(s), func(ctx2 context.Context, tx gdb.TX) {
+		_, err := tx.Exec(s2, args...)
+		logger.Logger.PanicErrorCtx(ctx2, err)
+	})
 	logger.Logger.PanicErrorCtx(context.Background(), err)
 	flag = true
 	return
@@ -77,7 +103,8 @@ func InsertData(table string, key string, data map[string]interface{}) (flag boo
 // sql 语句内容
 // args 传参
 func SqlMap(sql string, args ...interface{}) map[string]interface{} {
-	one, err := dbutil.DB().GetOne(context.Background(), sql, args...)
+	s, s2 := getsqldb(sql)
+	one, err := dbutil.DB(s).GetOne(context.Background(), s2, args...)
 	if err != nil {
 		panic(err)
 	}
@@ -130,7 +157,8 @@ func sqlsTableMust(tbname, where string, args ...interface{}) []map[string]inter
 // sql 语句内容
 // args 传参
 func SqlMust(sql string, args ...interface{}) map[string]interface{} {
-	one, err := dbutil.DB().GetOne(context.Background(), sql, args...)
+	s, s2 := getsqldb(sql)
+	one, err := dbutil.DB(s).GetOne(context.Background(), s2, args...)
 	if err != nil {
 		panic(err)
 	}
@@ -145,7 +173,8 @@ func SqlMust(sql string, args ...interface{}) map[string]interface{} {
 // sql 语句内容
 // args 传参
 func SqlMaps(sql string, args ...interface{}) []map[string]interface{} {
-	all, err := dbutil.DB().GetAll(context.Background(), sql, args...)
+	s, s2 := getsqldb(sql)
+	all, err := dbutil.DB(s).GetAll(context.Background(), s2, args...)
 	if err != nil {
 		panic(err)
 	}
@@ -157,7 +186,8 @@ func SqlMaps(sql string, args ...interface{}) []map[string]interface{} {
 // sql 语句内容
 // args 传参
 func SqlsMust(sql string, args ...interface{}) []map[string]interface{} {
-	all, err := dbutil.DB().GetAll(context.Background(), sql, args...)
+	s, s2 := getsqldb(sql)
+	all, err := dbutil.DB(s).GetAll(context.Background(), s2, args...)
 	if err != nil {
 		panic(err)
 	}
@@ -220,16 +250,16 @@ func gettableName(tbname string) (string, string, string) {
 	tbname = strings.ToUpper(tbname)
 	ns2 := strings.SplitN(tbname, ".DBO.", 2)
 	if len(ns2) < 2 {
-		return "", "", tbname
+		return dbname, "", tbname
 	}
 
-	return "", ns2[0], ns2[1]
+	return dbname, ns2[0], ns2[1]
 }
 
 func getsqldb(sqls string) (string, string) {
 	regex := regexp.MustCompile(`\[\s*(\w+)\s*=\s*([^]]+)\s*]`)
 	matches := regex.FindAllStringSubmatch(sqls, -1)
-	var db = ""
+	var db = dbname
 	for _, match := range matches {
 		// match[1] contains the key inside the square brackets (e.g., "DB")
 		// match[2] contains the value inside the square brackets (e.g., "123")

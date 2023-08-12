@@ -211,7 +211,7 @@ func gettableName(tbname string) (string, string, string) {
 		n1 := strings.ToUpper(ns[1])
 
 		ns2 := strings.SplitN(n1, ".DBO.", 2)
-		if len(ns) < 2 {
+		if len(ns2) < 2 {
 			return "", ns[0], ns[1]
 		}
 		return ns[0], ns2[0], ns2[1]

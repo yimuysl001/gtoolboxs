@@ -18,7 +18,7 @@ import (
 // DB db获取
 func DB(name ...string) (d gdb.DB) {
 	//如果 name 为空，直接获取本地配置
-	if name == nil || len(name) < 1 || name[0] == "" {
+	if name == nil || len(name) < 1 || name[0] == "" || name[0] == gdb.DefaultGroupName {
 		return g.DB()
 	}
 
@@ -44,6 +44,41 @@ func dbname(name ...string) (gd gdb.DB, ok bool) {
 		}
 	}()
 	return db(name...), true
+
+}
+
+// SetDb 设置数据源
+func SetNewDb(name string) {
+	//if setLocalDb(name) {
+	//	return
+	//}
+	//config := db().GetConfig()
+	//newcf := *config
+	////todo 配置处理
+	////newcf.Link = "sqlite: " + name
+	////数据库ip
+	//newcf.Host = "192.168.200.26"
+	////数据库种类
+	//newcf.Type = "mssql"
+	////数据库密码
+	//newcf.Pass = "123qwe,."
+	////端口
+	//newcf.Port = "1433"
+	////选择库
+	//newcf.Name = "YXHIS"
+	////数据库登录名
+	//newcf.User = "sa"
+	////附加属性
+	//newcf.Extra = "app name=" + name + "测试"
+	//GetLink(&newcf)
+
+	gdb.SetConfigGroup(name, GetConfigGroup(gctx.New(), name))
+	instance, err := gdb.Instance(name)
+	logger.Logger.PanicErrorCtx(context.Background(), err)
+	if cache.GetAdapter() != nil {
+		instance.GetCache().SetAdapter(cache.GetAdapter())
+	}
+	instance.SetLogger(getLogger())
 
 }
 

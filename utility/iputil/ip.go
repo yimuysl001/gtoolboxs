@@ -3,9 +3,11 @@ package iputil
 import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/yimuysl001/gtoolboxs/utility/logger"
 	"io/ioutil"
 	"net"
 	"net/http"
+	"os/exec"
 	"strings"
 )
 
@@ -92,4 +94,36 @@ func GetPublicIP2() (ip string, err error) {
 	}
 	ip = strings.ReplaceAll(string(body), "\n", "")
 	return
+}
+
+func GetLocalIPv4() (ipv4Address string, err error) {
+	defer func() {
+		r := recover()
+		logger.Logger.IfError(r)
+
+	}()
+
+	ipv4Address = ""
+	cmd := exec.Command("ipconfig")
+	// 执行命令，并返回结果
+	output, err := cmd.Output()
+	if err != nil {
+		return
+	}
+	// 因为结果是字节数组，需要转换成string
+	ipv4Address = string(output)
+	ipv4Address = strings.ReplaceAll(ipv4Address, "\r\n", ":")
+	split := strings.Split(ipv4Address, ":")
+	for _, s := range split {
+		s = strings.TrimSpace(s)
+		ip := net.ParseIP(s)
+		if ip != nil {
+			if ip.To4() != nil {
+				ipv4Address = s
+				return
+			}
+		}
+	}
+
+	return "", nil
 }

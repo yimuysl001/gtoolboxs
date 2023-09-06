@@ -7,6 +7,7 @@ import (
 	"github.com/gogf/gf/v2/os/gcron"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/yimuysl001/gtoolboxs/utility/cipher/sm4"
+	"github.com/yimuysl001/gtoolboxs/utility/fileutil"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
 	"github.com/yimuysl001/gtoolboxs/utility/timeutil"
 	"os"
@@ -121,6 +122,10 @@ func setCtime(str string) (errn error) {
 
 	if dtime.Before(time.Now()) {
 		return errors.New("设置有效期:" + dtime.String() + "，在当前时间之前。")
+	}
+	exists, _ := fileutil.PathExists(configpath)
+	if !exists {
+		os.MkdirAll(configpath, 0666)
 	}
 
 	return os.WriteFile(permissionpath, []byte(str), 0666)

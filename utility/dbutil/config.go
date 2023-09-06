@@ -5,6 +5,8 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/yimuysl001/gtoolboxs/utility/logger"
+	"regexp"
+	"strings"
 )
 
 // TBDBCONFIG 数据库配置
@@ -26,7 +28,7 @@ func GetConfigGroup(ctx context.Context, name string) gdb.ConfigGroup {
 	all, err := g.DB().Model("TBDBCONFIG").All("status=1 and CYWBM=?", name)
 	logger.Logger.PanicErrorCtx(ctx, err)
 	if all.IsEmpty() {
-		logger.Logger.PanicCtx(ctx, name+"数据库配置为设置")
+		logger.Logger.PanicCtx(ctx, name+"数据库配置未设置")
 	}
 	var tb = make([]TBDBCONFIG, 0)
 
@@ -34,8 +36,9 @@ func GetConfigGroup(ctx context.Context, name string) gdb.ConfigGroup {
 	logger.Logger.PanicErrorCtx(ctx, err)
 
 	var group = make(gdb.ConfigGroup, len(tb))
+	var conf = g.DB().GetConfig()
 	for i, tbdbconfig := range tb {
-		var newcf = g.DB().GetConfig()
+		var newcf = *conf
 		newcf.Link = tbdbconfig.Link
 		//数据库ip
 		newcf.Host = tbdbconfig.Host
@@ -51,14 +54,57 @@ func GetConfigGroup(ctx context.Context, name string) gdb.ConfigGroup {
 		newcf.User = tbdbconfig.CUser
 		//附加属性
 		//newcf.Extra = "app name=" + name + "测试"
+		//if tbdbconfig.Extra != "" {
 		newcf.Extra = tbdbconfig.Extra
+		//}
+
+		debug, b := setDebug(tbdbconfig.Extra)
+		if debug {
+			newcf.Debug = b
+			newcf.Extra = reDebug(tbdbconfig.Extra)
+		}
+
 		if tbdbconfig.Role == "" {
 			tbdbconfig.Role = "master"
 		}
+
 		newcf.Role = tbdbconfig.Role
-		group[i] = *newcf
+		group[i] = newcf
 	}
 
 	return group
 
+}
+
+func reDebug(extra string) string {
+	re := regexp.MustCompile(`\bdebug=[^;]*;?`)
+	result1 := re.ReplaceAllString(extra, "")
+	return strings.TrimRight(result1, ";")
+}
+
+func setDebug(extra string) (bool, bool) {
+	extra = strings.TrimSpace(extra)
+	if extra == "" {
+		return false, false
+	}
+	parts := strings.Split(extra, ";")
+	for _, part := range parts {
+		if strings.Contains(part, "=") {
+			keyValue := strings.SplitN(part, "=", 2)
+			key := keyValue[0]
+			value := keyValue[1]
+			if !strings.EqualFold("debug", key) {
+				continue
+			}
+
+			if strings.EqualFold("true", value) {
+				return true, true
+			} else {
+				return true, false
+			}
+
+		}
+	}
+
+	return false, false
 }

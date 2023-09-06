@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-//root处理方法
+// root处理方法
 func TraverseXmlRoot(root *etree.Element, froot func(root *etree.Element) bool) {
 	flag := froot(root)
 	if !flag {
@@ -18,7 +18,7 @@ func TraverseXmlRoot(root *etree.Element, froot func(root *etree.Element) bool) 
 
 }
 
-//根据xpath给节点赋值兼容@属性的模式
+// 根据xpath给节点赋值兼容@属性的模式
 func SetElementValue(ROOT *etree.Element, xmlpath string, value string) {
 
 	if strings.Contains(xmlpath, "/@") {
@@ -45,7 +45,7 @@ func DelAttr(ROOT *etree.Element, key string) {
 	}
 }
 
-//根据xpath给节点赋值兼容@属性的模式
+// 根据xpath给节点赋值兼容@属性的模式
 func GetElementValue(ROOT *etree.Element, xmlpath string) string {
 	MSG := ""
 	if strings.Contains(xmlpath, "/@") {
@@ -65,7 +65,15 @@ func GetElementValue(ROOT *etree.Element, xmlpath string) string {
 	return strings.TrimSpace(MSG)
 }
 
-//xml 解析
+func GetElement(ROOT *etree.Element, xmlpath string) *etree.Element {
+	return ROOT.FindElement(xmlpath)
+}
+
+func GetElements(ROOT *etree.Element, xmlpath string) []*etree.Element {
+	return ROOT.FindElements(xmlpath)
+}
+
+// xml 解析
 func GetROOT(bodys string) *etree.Element {
 	body := ""
 	split := strings.Split(bodys, "<![CDATA[")

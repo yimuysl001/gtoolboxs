@@ -18,10 +18,10 @@ import (
 	"time"
 )
 
-var dbname = ""
+var localdbname = ""
 
 func SetDb(name string) {
-	dbname = name
+	localdbname = name
 }
 
 func DelData(table string, where string, args ...interface{}) (flag bool) {
@@ -84,13 +84,21 @@ func InsertData(table string, key string, data map[string]interface{}) (flag boo
 	}()
 	name, s, s2 := gettableName(table)
 	err := dbutil.Tran(context.Background(), dbutil.DB(name).Schema(s), func(ctx2 context.Context, tx gdb.TX) {
+		count := 0
 		if key != "" {
-			_, err := tx.Delete(s2, key+"=?", data[key])
+			keydata := data[key]
+			count, _ = tx.Model(s2).Count(key+"=?", keydata)
+		}
+		if count > 0 {
+			keydata := data[key]
+			delete(data, key)
+			_, err := tx.Update(s2, data, key+"=?", keydata)
+			//_, err := tx.Delete(s2, key+"=?", data[key])
+			logger.Logger.PanicErrorCtx(ctx2, err)
+		} else {
+			_, err := tx.Insert(s2, data)
 			logger.Logger.PanicErrorCtx(ctx2, err)
 		}
-		_, err := tx.Insert(s2, data)
-		logger.Logger.PanicErrorCtx(ctx2, err)
-
 	})
 
 	logger.Logger.PanicErrorCtx(context.Background(), err)
@@ -232,7 +240,9 @@ func SqlsCache(tbname string, where string, args ...interface{}) []map[string]in
 //	@return string 配置名称
 //	@return string  库名
 //	@return string 表名
-func gettableName(tbname string) (string, string, string) {
+func gettableName(tbnamew string) (string, string, string) {
+	db, tbname := getsqldb(tbnamew)
+
 	if strings.Contains(tbname, "..") {
 		ns := strings.Split(tbname, "..")
 		if len(ns) > 2 {
@@ -242,7 +252,7 @@ func gettableName(tbname string) (string, string, string) {
 
 		ns2 := strings.SplitN(n1, ".DBO.", 2)
 		if len(ns2) < 2 {
-			return "", ns[0], ns[1]
+			return db, ns[0], ns[1]
 		}
 		return ns[0], ns2[0], ns2[1]
 
@@ -250,16 +260,16 @@ func gettableName(tbname string) (string, string, string) {
 	tbname = strings.ToUpper(tbname)
 	ns2 := strings.SplitN(tbname, ".DBO.", 2)
 	if len(ns2) < 2 {
-		return dbname, "", tbname
+		return db, "", tbname
 	}
 
-	return dbname, ns2[0], ns2[1]
+	return db, ns2[0], ns2[1]
 }
 
 func getsqldb(sqls string) (string, string) {
 	regex := regexp.MustCompile(`\[\s*(\w+)\s*=\s*([^]]+)\s*]`)
 	matches := regex.FindAllStringSubmatch(sqls, -1)
-	var db = dbname
+	var db = localdbname
 	for _, match := range matches {
 		// match[1] contains the key inside the square brackets (e.g., "DB")
 		// match[2] contains the value inside the square brackets (e.g., "123")
@@ -316,6 +326,26 @@ func date(fmt string, date interface{}) string {
 	return zone
 }
 
+func rangMap2(k, v string, maps []map[string]interface{}) map[string]interface{} {
+	var m = make(map[string]interface{})
+	for _, m2 := range maps {
+		key, ok := m2[k]
+		if !ok {
+			panic("未找到key字段：" + k)
+		}
+		if key == nil || key == "" {
+			continue
+		}
+		value, ok := m2[v]
+		if !ok {
+			panic("未找到value字段：" + v)
+		}
+		m[gconv.String(key)] = value
+	}
+
+	return m
+
+}
 func rangMap(k, v string, maps []map[string]interface{}) map[string]interface{} {
 	var m = make(map[string]interface{})
 	for _, m2 := range maps {
@@ -401,12 +431,12 @@ func testShow(str interface{}) interface{} {
 	return str
 }
 
-func mapToJson(data map[string]interface{}) string {
+func mapToJson(data interface{}) string {
 
 	return gjson.New(data).MustToJsonString()
 }
 
-func mapToXml(data map[string]interface{}, rootTag ...string) string {
+func mapToXml(data interface{}, rootTag ...string) string {
 	return gjson.New(data).MustToXmlString(rootTag...)
 }
 
@@ -493,6 +523,65 @@ func addDate(d time.Time, i int, ds string) time.Time {
 	return d
 }
 
+func GetType(i interface{}) string {
+	return reflect.TypeOf(i).String()
+}
+
+// list指定字段转为mao
+func rangMapNo(k, v string, maps interface{}) map[string]interface{} {
+	var m = make(map[string]interface{})
+
+	if maps == nil {
+		return m
+	}
+	switch va := maps.(type) {
+	case []map[string]interface{}:
+		return rangMap2(k, v, va)
+	case []interface{}:
+		for _, vs := range va {
+			if vs == nil {
+				continue
+			}
+			if m2, y := vs.(map[string]interface{}); y {
+				key, ok := m2[k]
+				if !ok {
+					panic("未找到key字段：" + k)
+				}
+				if key == nil || key == "" {
+					continue
+				}
+				value, ok := m2[v]
+				if !ok {
+					panic("未找到value字段：" + v)
+				}
+				m[gconv.String(key)] = value
+			}
+		}
+
+	default:
+		logger.Logger.PanicCtx(context.Background(), "未识别的数据类型")
+
+	}
+
+	//for _, m2 := range maps {
+	//	key, ok := m2[k]
+	//	if !ok {
+	//		panic("未找到key字段：" + k)
+	//	}
+	//	if key == nil || key == "" {
+	//		continue
+	//	}
+	//	value, ok := m2[v]
+	//	if !ok {
+	//		panic("未找到value字段：" + v)
+	//	}
+	//	m["K"+gconv.String(key)] = value
+	//}
+
+	return m
+
+}
+
 func rangMapg(k, v string, maps interface{}) map[string]interface{} {
 	var m = make(map[string]interface{})
 
@@ -554,7 +643,7 @@ func nowtime() (t time.Time) {
 		}
 	}()
 
-	one, err := g.DB().GetOne(context.Background(), "select getdate() as time")
+	one, err := g.DB(localdbname).GetOne(context.Background(), "select getdate() as time")
 	if err != nil {
 		return time.Now()
 	}

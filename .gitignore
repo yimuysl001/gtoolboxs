@@ -11,9 +11,11 @@ bin/
 gf
 main
 main.exe
+gtoolboxs.exe
 output/
 manifest/output/
 temp/
 temp.yaml
 bin
 **/config/config.yaml
+resource/public

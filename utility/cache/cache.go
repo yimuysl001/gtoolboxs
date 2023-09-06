@@ -16,7 +16,7 @@ type CacheType string
 const (
 	Redis   CacheType = "redis"
 	File    CacheType = "file"
-	LevelDb CacheType = "levleldb"
+	LevelDb CacheType = "leveldb"
 )
 
 // cache 缓存驱动
